@@ -27,10 +27,27 @@ public with sharing class NextStepFuture {
      * Opportunity Next Step field is a standard field
      * Update the corresponding test class AsynchronousTest and test method nextStepFuture_testUpdateAllNextStep to cover test this method
      */
-    //[public | private ] [static] data_type method_name (input parameters) {
-    //  The body of the method
-    //}
-
+    @future
+    public static void updateAllNextSteplist(List<Id> accountIds) {
+        List<Account> acctsToUpdate = new List<Account>();
+        List<Opportunity> oppsToUpdate = new List<Opportunity>();
+        
+        List<Account> accts = [SELECT Id, Name, Next_Step__c, (SELECT Id, Name, NextStep FROM Opportunities) FROM Account WHERE Id IN :accountIds];
+        
+        String nextStepValue = 'Meeting in the future';
+        for (Account acc : accts) {
+            acc.Next_Step__c = nextStepValue;
+            acctsToUpdate.add(acc);
+            for (Opportunity opp : acc.Opportunities) {
+                opp.NextStep = nextStepValue;
+                oppsToUpdate.add(opp);
+            }
+        }
+        if (!acctsToUpdate.isEmpty()) { update acctsToUpdate; }
+        if (!oppsToUpdate.isEmpty()) { update oppsToUpdate; }
+    }   
+       
+       
     /*
     * Question 2
     * Update/Uncomment the template code to create a method

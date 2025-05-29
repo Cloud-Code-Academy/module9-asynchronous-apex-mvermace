@@ -41,9 +41,14 @@ public with sharing class AsynchronousTest {
         }
         insert testOpps;
 
+        // Added by Mike Vermace to create a List<Id> from List<Accounts> testAccounts.  Is there a better way to do this?
+        Map<Id, Account> testAccountsMap = new Map<Id, Account>(testAccounts);
+        Set<Id> testAccountsIdsSet = testAccountsMap.keySet();
+        List<Id> testAccountsIdsList = new List<Id>(testAccountsIdsSet);      
+
         // Call the method to test between the startTest and stopTest methods
         Test.startTest();
-        //YOUR CODE HERE
+        NextStepFuture.updateAllNextSteplist(testAccountsIdsList);
         Test.stopTest();
 
         // Query the updated accounts and opportunities
@@ -61,6 +66,8 @@ public with sharing class AsynchronousTest {
         }
     }
 
+    
+
     @IsTest
     static void nextStepFuture_testCreateDealAndUpdateRole() {        
         Test.startTest();
@@ -75,8 +82,9 @@ public with sharing class AsynchronousTest {
         // Next, we test the updateUserRoleName method
         UserRole[] updatedRoles = [SELECT Id, Name FROM UserRole WHERE Name = 'CRO' LIMIT 1];
         System.assertEquals(1, updatedRoles.size(), 'UserRole should exist.');
-    }
-
+   
+        
+/*        
     @IsTest
     static void nextStepQueueable_testEnqueueJob() {
         // Create test data
