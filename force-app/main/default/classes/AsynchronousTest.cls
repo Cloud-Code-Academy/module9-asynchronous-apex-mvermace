@@ -76,8 +76,7 @@ public with sharing class AsynchronousTest {
         UserRole[] updatedRoles = [SELECT Id, Name FROM UserRole WHERE Name = 'CRO' LIMIT 1];
         System.assertEquals(1, updatedRoles.size(), 'UserRole should exist.');
     }
-        
-/*        
+               
     @IsTest
     static void nextStepQueueable_testEnqueueJob() {
         // Create test data
@@ -112,7 +111,7 @@ public with sharing class AsynchronousTest {
             System.assertEquals(null, opp.NextStep, 'Opportunity NextStep field was updated to null.');
         }
     }
-*/
+
     @IsTest
     static void nextStepBatch_testUpdateAllNextStep() {
         // Create test data
