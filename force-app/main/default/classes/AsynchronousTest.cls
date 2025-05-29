@@ -69,7 +69,7 @@ public with sharing class AsynchronousTest {
 
         // Due to the Mixed DML error, we need to test the insertBigDeal method
         Opportunity insertedOpportunity = [SELECT Id, Amount, Name, StageName, CloseDate FROM Opportunity WHERE Name = 'Big Deal' LIMIT 1];
-        System.assertNotEquals(null, insertedOpportunity,2 'Opportunity should have been created.');
+        System.assertNotEquals(null, insertedOpportunity, 'Opportunity should have been created.');
         System.assertEquals(1000000, insertedOpportunity.Amount, 'Opportunity Amount is incorrect.');
 
         // Next, we test the updateUserRoleName method
@@ -112,7 +112,7 @@ public with sharing class AsynchronousTest {
             System.assertEquals(null, opp.NextStep, 'Opportunity NextStep field was updated to null.');
         }
     }
-
+*/
     @IsTest
     static void nextStepBatch_testUpdateAllNextStep() {
         // Create test data
