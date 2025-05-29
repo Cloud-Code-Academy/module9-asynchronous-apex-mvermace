@@ -41,14 +41,9 @@ public with sharing class AsynchronousTest {
         }
         insert testOpps;
 
-        // Added by Mike Vermace to create a List<Id> from List<Accounts> testAccounts.  Is there a better way to do this?
-        Map<Id, Account> testAccountsMap = new Map<Id, Account>(testAccounts);
-        Set<Id> testAccountsIdsSet = testAccountsMap.keySet();
-        List<Id> testAccountsIdsList = new List<Id>(testAccountsIdsSet);      
-
         // Call the method to test between the startTest and stopTest methods
         Test.startTest();
-        NextStepFuture.updateAllNextSteplist(testAccountsIdsList);
+        NextStepFuture.updateAllNextSteplist(new List<Id>(new Map<Id, Account>(testAccounts).keySet()));
         Test.stopTest();
 
         // Query the updated accounts and opportunities
@@ -66,8 +61,6 @@ public with sharing class AsynchronousTest {
         }
     }
 
-    
-
     @IsTest
     static void nextStepFuture_testCreateDealAndUpdateRole() {        
         Test.startTest();
@@ -76,13 +69,13 @@ public with sharing class AsynchronousTest {
 
         // Due to the Mixed DML error, we need to test the insertBigDeal method
         Opportunity insertedOpportunity = [SELECT Id, Amount, Name, StageName, CloseDate FROM Opportunity WHERE Name = 'Big Deal' LIMIT 1];
-        System.assertNotEquals(null, insertedOpportunity, 'Opportunity should have been created.');
+        System.assertNotEquals(null, insertedOpportunity,2 'Opportunity should have been created.');
         System.assertEquals(1000000, insertedOpportunity.Amount, 'Opportunity Amount is incorrect.');
 
         // Next, we test the updateUserRoleName method
         UserRole[] updatedRoles = [SELECT Id, Name FROM UserRole WHERE Name = 'CRO' LIMIT 1];
         System.assertEquals(1, updatedRoles.size(), 'UserRole should exist.');
-   
+    }
         
 /*        
     @IsTest
